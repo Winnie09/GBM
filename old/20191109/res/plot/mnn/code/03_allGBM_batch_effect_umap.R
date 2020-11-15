@@ -1,0 +1,15 @@
+setwd('/home-4/whou10@jhu.edu/scratch/Wenpin/GBM/old/Nov3')
+u <- readRDS('./data/proc/tumor/umap/umap.rds')
+meta = read.csv('/home-4/whou10@jhu.edu/scratch/Wenpin/GBM/doc/GBM_scRNA_Sample_submission_Datasheet_Jason.csv')
+p <- sub('_.*','',rownames(u))
+library(ggplot2)
+
+png('./plot/mnn_umap.png',width=2000,height=2000)
+p1 <- ggplot() + geom_point(data=data.frame(umap1=u[,1],umap2=u[,2],sample=as.factor(p)),aes(x=umap1,y=umap2,col=sample),alpha=0.3,size=0.2) + theme_classic() + guides(color=guide_legend(override.aes = list(size = 5,alpha=1))) 
+p2 <- ggplot() + geom_point(data=data.frame(umap1=u[,1],umap2=u[,2],Fresh.Frozon = as.factor(meta[match(p,meta$Sample.ID),'Fresh.Frozen'])), aes(x=umap1,y=umap2,col=Fresh.Frozon),alpha=0.3, size=0.2) + theme_classic() + guides(color=guide_legend(override.aes = list(size = 5,alpha=1))) 
+p3 <- ggplot() + geom_point(data=data.frame(umap1=u[,1], umap2=u[,2], sortProc = as.factor(meta[match(p,meta$Sample.ID),'Sort.processing.batch'])), aes(x=umap1,y=umap2,col=sortProc),alpha=0.3,size=0.2) + theme_classic() + guides(color=guide_legend(override.aes = list(size = 5,alpha=1))) 
+p4 <- ggplot() + geom_point(data=data.frame(umap1=u[,1], umap2=u[,2], Sequencing = as.factor(meta[match(p,meta$Sample.ID),'Sequencing.batch'])), aes(x=umap1,y=umap2,col=Sequencing),alpha=0.3,size=0.2) + theme_classic() + guides(color=guide_legend(override.aes = list(size = 5,alpha=1))) 
+library(gridExtra)
+grid.arrange(p1,p2,p3,p4,nrow=2)
+dev.off()
+

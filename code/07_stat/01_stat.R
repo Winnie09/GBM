@@ -1,0 +1,16 @@
+data = as.character(commandArgs(trailingOnly = T)[[1]])
+setwd('/home-4/whou10@jhu.edu/scratch/Wenpin/GBM/')
+m = readRDS(paste0('./data/proc/',data,'/matrix/rawcount.rds')) 
+p = sub('_.*','',colnames(m))
+num.cell.bef.fil = table(p)
+
+m2= readRDS(paste0('./data/proc/',data,'/matrix/count.rds')) 
+p = sub('_.*','',colnames(m2))
+num.cell.af.fil = table(p)
+ap = names(num.cell.af.fil)
+res <- data.frame(sample=ap,num.cell.before.filter = as.vector(num.cell.bef.fil[ap]), num.cell.after.filter = as.vector(num.cell.af.fil))
+res = cbind(res, perc = round(res[,3]/res[,2],4)*100)
+res = rbind(res, c('',sum(res[,2]), sum(res[,3]), round(mean(res[,4])),4))
+dir.create(paste0('./stat/',data), showWarnings = F, recursive = T)
+write.csv(res,paste0('./stat/',data,'/num.cell.bef.af.filter.csv'))
+
