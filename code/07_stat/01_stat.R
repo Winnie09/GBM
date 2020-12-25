@@ -1,5 +1,5 @@
 data = as.character(commandArgs(trailingOnly = T)[[1]])
-setwd('/home-4/whou10@jhu.edu/scratch/Wenpin/GBM/')
+setwd('/work-zfs/hji7/whou10/GBM/')
 m = readRDS(paste0('./data/proc/',data,'/matrix/rawcount.rds')) 
 p = sub('_.*','',colnames(m))
 num.cell.bef.fil = table(p)
