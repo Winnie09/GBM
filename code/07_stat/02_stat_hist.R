@@ -1,5 +1,5 @@
 data = as.character(commandArgs(trailingOnly = T)[[1]])
-setwd('/home-4/whou10@jhu.edu/scratch/Wenpin/GBM')
+setwd('/work-zfs/hji7/whou10/GBM')
 pdf(paste0('./stat/',data,'/stat.pdf'),height=2,width=5)
 library(ggplot2)
 library(gridExtra)
@@ -14,3 +14,5 @@ p2 <- ggplot(data=data.frame(num=d2)) + geom_histogram(aes(x=num),col='black',fi
   geom_vline(xintercept = 0.2,col='red')
 grid.arrange(p1,p2,nrow=1)
 dev.off()
+
+
